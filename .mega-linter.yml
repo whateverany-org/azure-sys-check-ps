@@ -1,0 +1,177 @@
+---
+# $schema: https://raw.githubusercontent.com/megalinter/megalinter/v8.7.0/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
+# yamllint disable rule:line-length
+# https://megalinter.io/latest/configuration
+#
+# LOG_LEVEL: DEBUG
+# APPLY_FIXES:
+#   - true
+#   - all
+DISABLE_ERRORS: true
+BASH_SHFMT_ARGUMENTS: |-
+  --indent=2
+BASH_SHFMT_FILTER_REGEX_EXCLUDE: |-
+  ((^|/)bak/exegear/root/*|
+    (^|/)data/|
+    (^|/)docs/|
+    (^|/)site/|
+    \.terraform\.lock\.hcl$|
+    \.tfstate.*$|
+    (^|/)\.git/|
+    ^\.env$)
+COPYPASTE_FILTER_REGEX_EXCLUDE: |-
+  ((^|/)data/|
+   (^|/)docs/|
+   (^|/)site/|
+    \.terraform\.lock\.hcl$|
+    \.tfstate.*$|
+    (^|/)\.git/|
+    ^\.env$)
+COPYPASTE_JSCPD_ARGUMENTS: |-
+  --threshold 100
+# ENABLE_LINTERS:
+# ENABLE_LINTERS:
+#  - ANSIBLE_ANSIBLE_LINT
+#  - BASH_EXEC
+#  - BASH_SHELLCHECK
+#  - BASH_SHFMT
+#  - COPYPASTE_JSCPD
+#  - DOCKERFILE_HADOLINT
+#  - JSON_JSONLINT
+#  - JSON_PRETTIER
+#  - JSON_V8R
+#  - MAKEFILE_CHECKMAKE
+#  - MARKDOWN_MARKDOWNLINT
+#  - MARKDOWN_MARKDOWN_LINK_CHECK
+#  - MARKDOWN_MARKDOWN_TABLE_FORMATTER
+#  - POWERSHELL_POWERSHELL
+#  - REPOSITORY_CHECKOV
+#  - REPOSITORY_DEVSKIM
+#  - REPOSITORY_DUSTILOCK
+#  - REPOSITORY_GITLEAKS
+#  - REPOSITORY_GIT_DIFF
+#  - REPOSITORY_GRYPE
+#  - REPOSITORY_KICS
+#  - REPOSITORY_SECRETLINT
+#  - REPOSITORY_SYFT
+#  - REPOSITORY_TRIVY_SBOM
+#  - REPOSITORY_TRIVY
+#  - REPOSITORY_TRUFFLEHOG
+#  - SPELL_CSPELL
+#  - SPELL_LYCHEE
+#  - SPELL_PROSELINT
+#  - SPELL_VALE
+#  - TERRAFORM_TERRAFORM_FMT
+#  - TERRAFORM_TERRAGRUNT
+#  - TERRAFORM_TERRASCAN
+#  - TERRAFORM_TFLINT
+#  - YAML_PRETTIER
+#  - YAML_V8R
+#  - YAML_YAMLLINT
+EXCLUDED_DIRECTORIES:
+  - ".git"
+  - "data"
+  - "docs"
+  - "site"
+FILEIO_REPORTER: false
+FILTER_REGEX_EXCLUDE: |-
+  ((^|/)data/|
+   (^|/)docs/|
+   (^|/)site/|
+    \.terraform\.lock\.hcl$|
+    \.tfstate.*$|
+    (^|/)\.git/|
+    ^\.env$)
+GITHUB_WORKSPACE: /a
+# PARALLEL_PROCESS_NUMBER: 1
+PRE_COMMANDS:
+  - command: |
+      echo "INFO: BEGIN PRE_COMMANDS #1"
+      git config --global --add safe.directory '.'
+      mkdir -p /data/azure-devops
+      mkdir -p /data/cache
+      mkdir -p /data/copy-paste
+      mkdir -p /data/home
+      mkdir -p /data/reports
+      mkdir -p /data/updated_sources
+      trivy clean --all
+      echo "INFO: END PRE_COMMANDS #1"
+    run_before_linters: true
+# POST_COMMANDS:
+#   - command: |
+#       checkmake Makefile $(find . -iname '*.mk' -o -iname 'Makefile'
+REPORT_OUTPUT_FOLDER: /data
+REPOSITORY_CHECKOV_ARGUMENTS: |-
+  --skip-path .git
+  --skip-path data
+  --skip-path docs
+  --skip-path site
+# REPOSITORY_CHECKOV_UNSECURED_ENV_VARIABLES: |-
+#   - CKV_IGNORED_DIRECTORIES=.env,.git,.terraform.lock.hcl,.tf_backup,.tf_plan,.tf_state,data/,docs/,site/
+REPOSITORY_DEVSKIM_ARGUMENTS: |-
+  --file-format "text"
+  --ignore-rule-ids "DS162092,DS440020,DS440001,DS440000"
+  --ignore-globs "**/data/**,**/site/**,**/site/**"
+REPOSITORY_FILTER_REGEX_EXCLUDE: |-
+  ((^|/)data/|
+   (^|/)docs/|
+   (^|/)site/|
+    \.terraform\.lock\.hcl$|
+    \.tfstate.*$|
+    (^|/)\.git/|
+    ^\.env$)
+REPOSITORY_GRYPE_ARGUMENTS: |-
+  --exclude "**/.git/**"
+  --exclude "**/.terraform.lock.hcl"
+  --exclude "**/.tf_backup"
+  --exclude "**/.tf_plan"
+  --exclude "**/.tf_state"
+  --exclude "./.env"
+  --exclude "./data/**"
+  --exclude "./docs/**"
+  --exclude "./site/**"
+  --output "template"
+  --template ".grype-output.tmpl"
+# REPOSITORY_KICS_CONFIG_FILE: .kics.config
+# REPOSITORY_KICS_APPLY_FILTERS: false
+# REPOSITORY_KICS_ARGUMENTS: |-
+#  --path "."
+#  --log-level DEBUG
+#  --exclude-paths ".env,.git/*,.terraform.lock.hcl,.tf_backup,.tf_plan,.tf_state,./data/*,/data/*"
+# REPOSITORY_KICS_CLI_LINT_MODE: list_of_files
+REPOSITORY_KICS_CLI_LINT_MODE: file
+# REPOSITORY_KICS_APPLY_FILTERS: false
+REPOSITORY_TRIVY_ARGUMENTS: |-
+  --timeout 10m
+  --skip-dirs "data/**,docs/**,site/**,.git/**"
+  --skip-files ".env,**/.terraform.lock.hcl,**/.tf_backup,**/.tf_plan,**/.tf_state"
+REPOSITORY_TRIVY_SBOM_ARGUMENTS: |-
+  --skip-dirs "data/**,docs/**,site/**,.git/**"
+  --skip-files ".env,**/.terraform.lock.hcl,**/.tf_backup,**/.tf_plan,**/.tf_state"
+REPOSITORY_TRUFFLEHOG_ARGUMENTS: |-
+  --exclude-paths=.trufflehogignore
+REPOSITORY_SECRETLINT_ARGUMENTS: |-
+  --secretlintignore .gitignore
+SHOW_ELAPSED_TIME: true
+SPELL_CSPELL_ANALYZE_FILE_NAMES: false
+SPELL_CSPELL_CONFIG_FILE: ".cspell.json"
+SPELL_FILTER_REGEX_EXCLUDE: |-
+  ((^|/)data/|
+   (^|/)docs/|
+   (^|/)site/|
+    \.terraform\.lock\.hcl$|
+    \.tfstate.*$|
+    (^|/)\.git/|
+    ^\.env$)
+TERRAFORM_FILTER_REGEX_INCLUDE: |-
+  (iac/.*\.(tf|tfvars)$)
+TERRAFORM_FILTER_REGEX_EXCLUDE: |-
+  ^(?!iac/).*
+TERRAFORM_TERRASCAN_FILE_NAMES_REGEX:
+  - '(\.(tf|tfvars))$'
+TERRAFORM_TFLINT_PRE_COMMANDS:
+  - command: "terraform init -backend=false"
+# UPDATED_SOURCES_REPORTER: false
+YAML_PRETTIER_ARGUMENTS: |-
+  --print-width 256
+  --tab-width 2

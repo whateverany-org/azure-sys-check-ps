@@ -1,0 +1,389 @@
+\documentclass[a4paper,$if(weaDocStyle)$10pt$else$11pt$endif$]{article}
+
+% ================================================================
+% BEGIN whateverany.tex
+% ================================================================
+
+% ------------------------------------------------
+% GLOBAL PACKAGES
+% ------------------------------------------------
+\usepackage{fontspec}
+\usepackage[a4paper,left=15mm,right=15mm,top=15mm,bottom=15mm]{geometry}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{fontawesome5}
+\usepackage{lastpage}
+\usepackage{listings}
+\usepackage{calc}
+\usepackage{titlesec}
+\usepackage{longtable,booktabs,array}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{parskip}
+\usepackage{metalogo}
+\usepackage{etoolbox}
+\usepackage{xspace}
+\usepackage{xstring}
+
+% ------------------------------------------------
+% DEFAULT PANDOC METADATA VARIABLES
+% ------------------------------------------------
+$if(weaDocStyle)$
+  \def\weaDocStyle{$weaDocStyle$}
+$else$
+  \def\weaDocStyle{default}
+$endif$
+
+$if(mainfont)$
+  \def\weaFontMainName{\detokenize{$mainfont$}}
+$else$
+  \def\weaFontMainName{TeX Gyre Termes}
+$endif$
+
+$if(monofont)$
+  \def\weaFontMonoName{\detokenize{$monofont$}}
+$else$
+  \def\weaFontMonoName{TeX Gyre Cursor}
+$endif$
+
+$if(sansfont)$
+  \def\weaFontSansName{\detokenize{$sansfont$}}
+$else$
+  \def\weaFontSansName{TeX Gyre Heros}
+$endif$
+
+$if(title)$
+  \def\weaTitle{\detokenize{$title$}}
+  \title{\weaTitle}
+$else$
+  \def\weaTitle{}
+  \title{default}
+$endif$
+
+$if(author)$
+  \def\weaAuthor{\detokenize{$author$}}
+  \author{\weaAuthor}
+$else$
+  \def\weaAuthor{}
+  \author{David Bowman}
+$endif$
+
+$if(date)$
+  \def\weaDate{\detokenize{$date$}}
+  \date{\weaDate}
+$else$
+  \def\weaDate{}
+  \date{1970-JAN-01}
+$endif$
+
+$if(weaEmail)$
+  \def\weaEmail{\detokenize{$weaEmail$}}
+$else$
+  \def\weaEmail{admin@whateverany.com}
+$endif$
+
+$if(titlepage)$
+  \def\weaTitlepage{true}
+$else$
+  \def\weaTitlepage{false}
+$endif$
+
+% ------------------------------------------------
+% CUSTOM METADATA VARIABLES
+% ------------------------------------------------
+$if(weaColorBlack)$
+  \def\weaColorBlack{\detokenize{$weaColorBlack$}}
+$else$
+  \def\weaColorBlack{000000}
+$endif$
+
+$if(weaColorWhite)$
+  \def\weaColorWhite{\detokenize{$weaColorWhite$}}
+$else$
+  \def\weaColorWhite{FFFFFF}
+$endif$
+
+$if(weaFooter)$
+  \def\weaFooter{$weaFooter$}
+$else$
+  \def\weaFooter{}
+$endif$
+
+$if(weaFontAuthorName)$
+  \def\weaFontAuthorName{$weaFontAuthorName$}
+$else$
+  \def\weaFontAuthorName{Roboto Slab}
+$endif$
+
+$if(weaFontHeaderName)$
+  \def\weaFontHeaderName{$weaFontHeaderName$}
+$else$
+  \def\weaFontHeaderName{EB Garamond}
+$endif$
+
+$if(weaFontFooterName)$
+  \def\weaFontFooterName{$weaFontFooterName$}
+$else$
+  \def\weaFontFooterName{Roboto Slab}
+$endif$
+
+$if(weaFontContactName)$
+  \def\weaFontContactName{$weaFontContactName$}
+$else$
+  \def\weaFontContactName{FiraMono Nerd Font Mono}
+$endif$
+
+$if(weaHideTeX)$
+  \def\weaShowTeX{}
+$else$
+  \def\weaShowTeX{\weaClassicTeX}
+$endif$
+
+% ------------------------------------------------
+% DEFAULT SETUP
+% ------------------------------------------------
+\ifstrequal{\weaDocStyle}{resume}{%
+  \renewcommand\normalsize{\fontsize{10pt}{12pt}\selectfont}
+}{}
+
+\setmainfont{\weaFontMainName}
+\setmonofont{\weaFontMonoName}
+\setsansfont{\weaFontSansName}
+
+\newfontfamily{\weaFontMain}{\weaFontMainName}
+\newcommand{\weaTextMain}[1]{{\weaFontMain #1}}
+\newfontfamily{\weaFontMono}{\weaFontMonoName}
+\newcommand{\weaTextMono}[1]{{\weaFontMono #1}}
+\newfontfamily{\weaFontSans}{\weaFontSansName}
+\newcommand{\weaTextSans}[1]{{\weaFontSans #1}}
+\newfontfamily{\weaFontAuthor}{\weaFontAuthorName}
+\newcommand{\weaTextAuthor}[1]{{\weaFontAuthor #1}}
+\newfontfamily{\weaFontHeader}{\weaFontHeaderName}
+\newcommand{\weaTextHeader}[1]{{\weaFontHeader #1}}
+\newfontfamily{\weaFontFooter}{\weaFontFooterName}
+\newcommand{\weaTextFooter}[1]{{\weaFontFooter #1}}
+\newfontfamily{\weaFontContact}{\weaFontContactName}
+\newcommand{\weaTextContact}[1]{{\weaFontContact #1}}
+
+\definecolor{weaColorBlack}{HTML}{\weaColorBlack}
+\newcommand{\weaTextColorBlack}[1]{\textcolor{weaColorBlack}{#1}}
+\definecolor{weaColorWhite}{HTML}{\weaColorWhite}
+\newcommand{\weaTextColorWhite}[1]{\textcolor{weaColorWhite}{#1}}
+\definecolor{weaColorBeige}{HTML}{FFF8E7} % 
+\newcommand{\weaTextColorBeige}[1]{\textcolor{weaColorBeige}{#1}}
+\definecolor{weaColorVeryPaleOrange}{HTML}{FFF9F0} % 
+\newcommand{\weaTextColorVeryPaleOrange}[1]{\textcolor{weaColorVeryPaleOrange}{#1}}
+\definecolor{weaColorLavenderBlush}{HTML}{FFF0F5} % A very soft, delicate pink, almost off-white
+\newcommand{\weaTextColorLavenderBlush}[1]{\textcolor{weaColorLavenderBlush}{#1}}
+\definecolor{weaColorMistyRose}{HTML}{FFE4E1} % A slightly warmer, more noticeable pale pink
+\newcommand{\weaTextColorMistyRose}[1]{\textcolor{weaColorMistyRose}{#1}}
+\definecolor{weaColorPapayaWhip}{HTML}{FFEFD5} % A very pale, creamy yellow-orange
+\newcommand{\weaTextColorPapayaWhip}[1]{\textcolor{weaColorPapayaWhip}{#1}}
+\definecolor{weaColorBlanchedAlmond}{HTML}{FFEBCD} % A soft, slightly richer pale orange with a yellow hint
+\newcommand{\weaTextColorBlanchedAlmond}[1]{\textcolor{weaColorBlanchedAlmond}{#1}}
+\definecolor{weaColorLightSalmonRose}{HTML}{F9DED7} % A very desaturated, soft peachy-rose, avoiding a stark red
+\newcommand{\weaTextColorLightSalmonRose}[1]{\textcolor{weaColorLightSalmonRose}{#1}}
+\definecolor{weaColorPaleTerracotta}{HTML}{F7E8E4} % An earthy, muted pink-red, like a very light clay
+\newcommand{\weaTextColorPaleTerracotta}[1]{\textcolor{weaColorPaleTerracotta}{#1}}
+\definecolor{weaColorHoneyDew}{HTML}{F0FFF0} % A classic, very pale minty green, almost white
+\newcommand{\weaTextColorHoneyDew}[1]{\textcolor{weaColorHoneyDew}{#1}}
+\definecolor{weaColorMintCream}{HTML}{F5FFFA} % Even paler than honeydew, a very faint, cool green
+\newcommand{\weaTextColorMintCream}[1]{\textcolor{weaColorMintCream}{#1}}
+\definecolor{weaColorPaleGreenTint}{HTML}{F0FFF4} % A gentle, light spring green tint
+\newcommand{\weaTextColorPaleGreenTint}[1]{\textcolor{weaColorPaleGreenTint}{#1}}
+\definecolor{weaTokyoNightBackInBlack}{HTML}{16161E} % TokyoNightBackInBlack
+\newcommand{\weaTextTokyoNightBackInBlack}[1]{\textcolor{weaTokyoNightBackInBlack}{#1}}
+\definecolor{weaTokyoNightBlueHighlight}{HTML}{515C7E} % TokyoNightBlueHighlight
+\newcommand{\weaTextTokyoNightBlueHighlight}[1]{\textcolor{weaTokyoNightBlueHighlight}{#1}}
+\definecolor{weaTokyoNightBlack}{HTML}{363B54} % TokyoNightBlack
+\newcommand{\weaTextTokyoNightBlack}[1]{\textcolor{weaTokyoNightBlack}{#1}}
+\definecolor{weaTokyoNightRed}{HTML}{F7768E} % TokyoNightRed
+\newcommand{\weaTextTokyoNightRed}[1]{\textcolor{weaTokyoNightRed}{#1}}
+\definecolor{weaTokyoNightGreen}{HTML}{73DACA} % TokyoNightGreen
+\newcommand{\weaTextTokyoNightGreen}[1]{\textcolor{weaTokyoNightGreen}{#1}}
+\definecolor{weaTokyoNightOrange}{HTML}{E0AF68} % TokyoNightOrange
+\newcommand{\weaTextTokyoNightOrange}[1]{\textcolor{weaTokyoNightOrange}{#1}}
+\definecolor{weaTokyoNightBlue}{HTML}{7AA2F7} % TokyoNightBlue
+\newcommand{\weaTextTokyoNightBlue}[1]{\textcolor{weaTokyoNightBlue}{#1}}
+\definecolor{weaTokyoNightMagenta}{HTML}{BB9AF7} % TokyoNightMagenta
+\newcommand{\weaTextTokyoNightMagenta}[1]{\textcolor{weaTokyoNightMagenta}{#1}}
+\definecolor{weaTokyoNightCyan}{HTML}{7DCFFF} % TokyoNightCyan
+\newcommand{\weaTextTokyoNightCyan}[1]{\textcolor{weaTokyoNightCyan}{#1}}
+\definecolor{weaTokyoNightFadedWhite}{HTML}{787C99} % TokyoNightFadedWhite
+\newcommand{\weaTextTokyoNightFadedWhite}[1]{\textcolor{weaTokyoNightFadedWhite}{#1}}
+\definecolor{weaTokyoNightBrightBlack}{HTML}{363B54} % TokyoNightBrightBlack
+\newcommand{\weaTextTokyoNightBrightBlack}[1]{\textcolor{weaTokyoNightBrightBlack}{#1}}
+\definecolor{weaTokyoNightBrightRed}{HTML}{F7768E} % TokyoNightBrightRed
+\newcommand{\weaTextTokyoNightBrightRed}[1]{\textcolor{weaTokyoNightBrightRed}{#1}}
+\definecolor{weaTokyoNightBrightGreen}{HTML}{73DACA} % TokyoNightBrightGreen
+\newcommand{\weaTextTokyoNightBrightGreen}[1]{\textcolor{weaTokyoNightBrightGreen}{#1}}
+\definecolor{weaTokyoNightBrightYellow}{HTML}{E0AF68} % TokyoNightBrightYellow
+\newcommand{\weaTextTokyoNightBrightYellow}[1]{\textcolor{weaTokyoNightBrightYellow}{#1}}
+\definecolor{weaTokyoNightBrightBlue}{HTML}{7AA2F7} % TokyoNightBrightBlue
+\newcommand{\weaTextTokyoNightBrightBlue}[1]{\textcolor{weaTokyoNightBrightBlue}{#1}}
+\definecolor{weaTokyoNightBrightMagenta}{HTML}{BB9AF7} % TokyoNightBrightMagenta
+\newcommand{\weaTextTokyoNightBrightMagenta}[1]{\textcolor{weaTokyoNightBrightMagenta}{#1}}
+\definecolor{weaTokyoNightBrightCyan}{HTML}{7DCFFF} % TokyoNightBrightCyan
+\newcommand{\weaTextTokyoNightBrightCyan}[1]{\textcolor{weaTokyoNightBrightCyan}{#1}}
+\definecolor{weaTokyoNightBrightWhite}{HTML}{ACB0D0} % TokyoNightBrightWhite
+\newcommand{\weaTextTokyoNightBrightWhite}[1]{\textcolor{weaTokyoNightBrightWhite}{#1}}
+
+\pagecolor{weaColorWhite}
+\AtBeginDocument{\color{weaColorBlack}}
+
+%\renewcommand\normalsize{\fontsize{12}{12}\selectfont} % don't do it Stan
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\providecommand{\tightlist}{}
+
+\setlist[itemize,1]{leftmargin=1em, label=•, topsep=0.5ex, itemsep=0.2ex}
+
+\newcommand{\weaClassicTeX}{{\fontfamily{lmr}\selectfont\TeX}}
+\newcommand{\weaClassicLaTeX}{{\fontfamily{lmr}\selectfont\LaTeX}}
+
+\newcommand{\weaTightLine}[2]{#1\\[-0.5em]#2}
+
+% ------------------------------------------------
+% HEADER / TITLE BLOCK
+% ------------------------------------------------
+\ifstrequal{\weaDocStyle}{resume}{%
+  \makeatletter
+  \renewcommand{\maketitle}{
+    \begin{center}
+      {\weaFontAuthor\Huge\textbf{\weaAuthor}} \\[1.5ex]
+      \noindent
+      \ifdefempty{\weaPhone}{}{{\weaFontContact\scriptsize\hspace{0.1em} \faPhone\hspace{0.1em} \weaPhone}}
+      \ifdefempty{\weaEmail}{}{{\weaFontContact\scriptsize\hspace{0.1em} \faEnvelope\hspace{0.1em} \weaEmail}}
+      \ifdefempty{\weaLinkedIn}{}{{\weaFontContact\scriptsize\hspace{0.1em} \faLinkedinIn\hspace{0.1em} \weaLinkedIn}}
+      \ifdefempty{\weaURL}{}{{\weaFontContact\scriptsize\hspace{0.1em} \faGlobe\hspace{0.1em} \weaURL}}
+    \end{center}
+    \vspace{1.5ex}
+  }
+  \makeatother
+}{%
+  \ifstrequal{\weaTitlepage}{true}{%
+    \makeatletter
+    \renewcommand{\maketitle}{
+      \begin{flushright}
+        {\weaFontAuthor\Large \weaAuthor} \\[-0.5em]
+        {\weaFontContact\tiny \weaEmail} \\[-0.5em]
+      \end{flushright}
+    }
+    \makeatother
+    }{}
+}
+
+\ifstrequal{\weaTitlepage}{true}{%
+    % --- DEFAULT STYLE HEADER ---
+    \renewcommand{\maketitle}{
+      \begin{flushright}
+        {\weaFontAuthor\Large \weaAuthor} \\[-0.5em]
+        {\weaFontContact\tiny \weaEmail} \\[-0.5em]
+      \end{flushright}
+    }
+}{%
+  \makeatother
+  \makeatletter
+}
+\ifstrequal{\weaDocStyle}{resume}{%
+  \makeatletter
+  % --- RESUME STYLE HEADER ---
+  \renewcommand{\maketitle}{%
+    \begin{center}
+      {\weaFontAuthor\Huge\textbf{\weaAuthor}} \\[1.5ex]
+      \noindent
+      \ifdefempty{\weaPhone}{}{{\weaFontContact\scriptsize\hspace{0.1em} \faPhone\hspace{0.1em} \weaPhone}}
+      \ifdefempty{\weaEmail}{}{{\weaFontContact\scriptsize\hspace{0.1em} \faEnvelope\hspace{0.1em} \weaEmail}}
+      \ifdefempty{\weaLinkedIn}{}{{\weaFontContact\scriptsize\hspace{0.1em} \faLinkedinIn\hspace{0.1em} \weaLinkedIn}}
+      \ifdefempty{\weaURL}{}{{\weaFontContact\scriptsize\hspace{0.1em} \faGlobe\hspace{0.1em} \weaURL}}
+    \end{center}
+    \vspace{1.5ex}
+  }
+}{}
+
+% ------------------------------------------------
+% FOOTER
+% ------------------------------------------------
+\fancyhf{}
+\ifdefempty{\weaFooter}{}{%
+  \fancyfoot[L]{%
+    \ifdefempty{\weaShowTeX}{}{\tiny\weaClassicTeX\xspace}%
+    \tiny\weaFontFooter\weaFooter%
+    }
+  \fancyfoot[R]{%
+    \tiny\weaFontFooter\thepage/\pageref{LastPage}
+    }
+}
+
+% ================================================================
+% CODE BOCKS (listings)
+% ================================================================
+%\lstset{
+%  basicstyle=\ttfamily\small, % Use the main tt font, slightly smaller
+%  breaklines=true,
+%  postbreak=\mbox{\textcolor{red}{\hookrightarrow}\space},
+%}
+
+% ------------------------------------------------
+% COMMANDS
+% ------------------------------------------------
+\newcommand{\weaResumeDate}[1]{%
+  {%
+  \noindent\normalfont\normalsize\weaFontHeader\bfseries#1%
+  }
+}
+\newcommand{\weaResumeLocation}[1]{%
+  {%
+  \noindent\normalfont\normalsize\weaFontHeader\bfseries#1%
+  }
+}
+
+% ------------------------------------------------
+% CONDITIONAL FORMATTING (weaDocStyle)
+% ------------------------------------------------
+\ifstrequal{\weaDocStyle}{resume}{%
+  % SECTION FORMATTING
+  % # Header 1
+  \titlespacing*{\subsection}{0pt}{2.0ex}{1.0ex} % <-- Spacing: left, before, after
+  \titleformat{name=\section,numberless}
+  {\weaFontHeader\Large\bfseries}                % <-- Font, Size, Weigh
+  {}                                             % <-- Label:
+  {0pt}                                          % <-- Sep: Space between label and title
+  {}                                             % <-- Before-code
+  % ## Header 2
+  \titlespacing*{\section}{0pt}{2.0ex}{1.0ex}    % <-- Spacing: left, before, after
+  \titleformat{name=\subsection,numberless}
+  {\weaFontHeader\Large\bfseries}                % <-- Font, Size, Weigh
+  {}                                             % <-- Label:
+  {0pt}                                          % <-- Sep: Space between label and title
+  {}                                             % <-- Before-code
+  \titlespacing*{\section}{0pt}{2.0ex}{1.0ex}    % <-- Spacing: left, before, after
+  % # 1. Header 1
+  \titleformat{\section}
+  {\weaFontHeader\Large\bfseries}                % <-- Font, Size, Weigh
+  {}                                             % <-- Label:
+  {0pt}                                          % <-- Sep: Space between label and title
+  {}                                             % <-- Before-code
+  % ## 2. Header 2
+  \titlespacing*{\section}{0pt}{2.0ex}{1.0ex}    % <-- Spacing: left, before, after
+  \titleformat{\subsection}
+  {\weaFontHeader\large\bfseries}                % <-- Font, Size, Weight
+  {}                                             % <-- Label:
+  {0pt}                                          % <-- Sep: Space between label and title
+  {}                                             % <-- Before-code
+}{}
+
+% ================================================================
+% DOCUMENT BODY
+% ================================================================
+\begin{document}
+
+\ifstrequal{\weaTitlepage}{true}{%
+  \maketitle
+}{}
+
+$body$
+
+\end{document}

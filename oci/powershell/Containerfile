@@ -1,0 +1,64 @@
+# mcr.microsoft.com/azure-cli:latest (https://mcr.microsoft.com/en-us/artifact/mar/azure-cli)
+ARG OCI_SRC_IMAGE_POWERSHELL=mcr.microsoft.com/azure-cli:2.78.0
+# hadolint ignore=DL3006
+FROM ${OCI_SRC_IMAGE_POWERSHELL}
+ARG HOME_CA_CERT=null
+ARG OCI_GID=666
+ARG OCI_GROUP=natas
+ARG OCI_IMAGE_POWERSHELL=null
+ARG OCI_SERVICE_NAME=powershell
+ARG OCI_UID=666
+ARG OCI_USER=natas
+ARG OCI_WORKING_DIR=/a
+ARG OCI_DATA_DIR=${OCI_WORKING_DIR}/data/${OCI_SERVICE_NAME}
+
+ENV HOME_CA_CERT=${HOME_CA_CERT} \
+    OCI_DATA_DIR=${OCI_DATA_DIR} \
+    OCI_GID=${OCI_GID} \
+    OCI_GROUP=${OCI_GROUP} \
+    OCI_IMAGE=${OCI_IMAGE_POWERSHELL} \
+    OCI_SERVICE_NAME=${OCI_SERVICE_NAME} \
+    OCI_UID=${OCI_UID} \
+    OCI_USER=${OCI_USER} \
+    OCI_WORKING_DIR=${OCI_WORKING_DIR}
+   
+COPY oci/rootfs/ /
+COPY oci/powershell/rootfs/ /
+
+# hadolint ignore=DL4006,DL3008
+RUN set -ex \
+  && echo "BEGIN: RUN 1" \
+  && tdnf install -y \
+    ca-certificates \
+  && printf "%b\n" "${HOME_CA_CERT}" >"/etc/pki/ca-trust/source/anchors/home_CA.crt" \
+  && update-ca-trust extract \
+  && curl -L https://packages.microsoft.com/config/azurelinux/3.0/prod.repo -o /etc/yum.repos.d/microsoft.repo \
+  && tdnf makecache \
+  && tdnf install -y \
+    powershell \
+ && pwsh -NoLogo -NoProfile -Command \
+    '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
+     Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted; \
+     Save-Module -Name Az -Path /usr/local/share/powershell/Modules -Force' \
+  && tdnf install -y \
+    git \
+    less \
+    make \
+    rsync \
+    shadow-utils \
+    tree \
+    vi \
+    wget \
+  && dnf clean all \
+  && groupadd -r -g "${OCI_GID}" "${OCI_GROUP}" \
+  && useradd -g "${OCI_GROUP}" -u "${OCI_UID}" -d "${OCI_DATA_DIR}" -s "/bin/bash" -m -l "${OCI_USER}" \
+  && install -d -o "${OCI_USER}" -g "${OCI_GROUP}" -m u=rwx,og= "${OCI_DATA_DIR}/.ssh" \
+  && install -d -o "${OCI_USER}" -g "${OCI_GROUP}" -m u=rwx,og=rx "${OCI_DATA_DIR}/.config/incus" \
+  && if [ -e /data ]; then find /data -mindepth 1 -maxdepth 1 -exec mv {} "${OCI_DATA_DIR}" \; && rm -rf /data ; fi \
+  && echo "END: RUN 1"
+
+WORKDIR ${OCI_WORKING_DIR}
+ENTRYPOINT ["/_entrypoint.sh"]
+USER ${OCI_USER}
+HEALTHCHECK --interval=60s --timeout=10s --retries=3 CMD true
+

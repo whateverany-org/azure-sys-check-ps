@@ -1,0 +1,3 @@
+# Ignore URLs
+https://github.com/*
+https://portal.azure.com/*

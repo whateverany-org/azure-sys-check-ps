@@ -1,0 +1,15 @@
+---
+customCatalog:
+  schemas:
+    - name: megalinter
+      fileMatch: [".mega-linter.yml"]
+      location: https://raw.githubusercontent.com/oxsecurity/megalinter/main/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
+    - name: prettierrc
+      fileMatch: [".prettierrc.yaml"]
+      location: https://json.schemastore.org/prettierrc-2.8.8.json
+    - name: podman-compose
+      fileMatch: ["podman-compose.yaml"]
+      location: https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+    - name: metadata
+      fileMatch: ["metadata.yaml"]
+      location: src/metadata.schema.json

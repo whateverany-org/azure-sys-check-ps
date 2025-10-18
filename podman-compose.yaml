@@ -1,0 +1,98 @@
+---
+# =--------------------------------------------------------------------------=
+#
+# podman user mode uid/gid mapping requires (as root) on host (not in container):
+#
+#  echo "${OCI_USER}:100000:65536" >> /etc/subuid
+#  echo "${OCI_GROUP}:100000:65536" >> /etc/subgid
+#  setfacl -m d:u:1000:rwx,u:1000:rwx data/devops (and other volumes)
+#
+# =--------------------------------------------------------------------------=
+name: ${COMPOSE_PROJECT_NAME:-devops}
+pod_name: ${COMPOSE_PROJECT_NAME:-devops}
+services:
+  devops:
+    cap_drop:
+      - ALL
+    image: ${OCI_IMAGE_DEVOPS}
+    healthcheck:
+      test: ["CMD-SHELL", "true"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+    security_opt:
+      - "no-new-privileges:true"
+    volumes:
+      # kics-scan ignore-line 8c978947-0ff6-485c-b0c2-0bfca6026466, comment=.
+      - ${MAIN_BASE_DIR:-.}:${OCI_WORKING_DIR:-/a}:ro
+      - ${MAIN_BASE_DIR:-.}/data/devops:${OCI_WORKING_DIR:-/a}/data/devops:rw,U
+      # - ${MAIN_BASE_DIR:-.}/data/devops-kubelet:/var/lib/kubelet:Z,rw
+    working_dir: ${OCI_WORKING_DIR:-/a}
+  megalinter:
+    cap_drop:
+      - ALL
+    image: ${OCI_IMAGE_MEGALINTER}
+    healthcheck:
+      test: ["CMD-SHELL", "true"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+    security_opt:
+      - "no-new-privileges:true"
+    volumes:
+      # kics-scan ignore-line 8c978947-0ff6-485c-b0c2-0bfca6026466, comment=.
+      - ${MAIN_BASE_DIR:-.}:${OCI_WORKING_DIR:-/a}:ro
+      - ${MAIN_BASE_DIR:-.}/data/megalinter:${OCI_WORKING_DIR:-/a}/data/megalinter:rw,U
+  pandoc:
+    cap_drop:
+      - ALL
+    image: ${OCI_IMAGE_PANDOC}
+    healthcheck:
+      test: ["CMD-SHELL", "true"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+    security_opt:
+      - "no-new-privileges:true"
+    volumes:
+      # kics-scan ignore-line 8c978947-0ff6-485c-b0c2-0bfca6026466, comment=.
+      - ${MAIN_BASE_DIR:-.}:${OCI_WORKING_DIR:-/a}:ro
+      - ${MAIN_BASE_DIR:-.}/data/pandoc:${OCI_WORKING_DIR:-/a}/data/pandoc:rw,U
+  powershell:
+    build:
+      context: .
+      dockerfile: oci/powershell/Containerfile
+      tags:
+        - localhost/whateverany/powershell:latest
+        - ${OCI_IMAGE_POWERSHELL}
+    cap_drop:
+      - ALL
+    image: ${OCI_IMAGE_POWERSHELL}
+    healthcheck:
+      test: ["CMD-SHELL", "true"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+    security_opt:
+      - "no-new-privileges:true"
+    volumes:
+      # kics-scan ignore-line 8c978947-0ff6-485c-b0c2-0bfca6026466, comment=.
+      - ${MAIN_BASE_DIR:-.}:${OCI_WORKING_DIR:-/a}:ro
+      - ${MAIN_BASE_DIR:-.}/data/powershell:${OCI_WORKING_DIR:-/a}/data/powershell:rw,U
+  quarto:
+    cap_drop:
+      - ALL
+    image: ${OCI_IMAGE_QUARTO}
+    healthcheck:
+      test: ["CMD-SHELL", "true"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+    security_opt:
+      - "no-new-privileges:true"
+    volumes:
+      # kics-scan ignore-line 8c978947-0ff6-485c-b0c2-0bfca6026466, comment=.
+      - ${MAIN_BASE_DIR:-.}:${OCI_WORKING_DIR:-/a}:ro
+      - ${MAIN_BASE_DIR:-.}/data/quarto:${OCI_WORKING_DIR:-/a}/data/quarto:rw,U
+volumes:
+  devops-cache:

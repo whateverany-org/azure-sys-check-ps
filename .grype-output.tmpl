@@ -1,0 +1,4 @@
+{{- printf "%-35s %-20s %-20s %-15s %-22s %-12s %s\n" "NAME" "INSTALLED" "FIXED-IN" "TYPE" "VULNERABILITY" "SEVERITY" "LOCATION" -}}
+{{- range .Matches -}}
+  {{- printf "%-35s %-20s %-20s %-15s %-22s %-12s %s\n" .Artifact.Name .Artifact.Version (.Vulnerability.Fix.Versions | join ",") .Artifact.Type .Vulnerability.ID .Vulnerability.Severity (index .Artifact.Locations 0).Path -}}
+{{- end -}}

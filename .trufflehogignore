@@ -1,0 +1,7 @@
+.*/\.*\.tf_backup$
+.*/\.*\.tf_plan$
+.*/\.*\.tf_state$
+.*/\.terraform\.lock\.hcl$|
+.*\.git/
+^\.env
+^data/

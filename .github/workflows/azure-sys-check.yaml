@@ -1,0 +1,32 @@
+name: Linux Resource Monitoring
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    env:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      AZURE_LOCATION: ${{ secrets.AZURE_LOCATION }}
+      AZURE_RG: ${{ secrets.AZURE_RG }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Azure resources
+        run: ./src/scripts/azure_setup.sh
+
+      - name: Monitor azure resources
+        shell: pwsh
+        run: ./src/scripts/azure_monitor.ps1
+
+      - name: Cleanup Azure resources
+        if: always()
+        run: ./src/scripts/azure_setup.sh

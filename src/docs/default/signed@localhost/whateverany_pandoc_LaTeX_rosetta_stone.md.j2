@@ -1,0 +1,315 @@
+---
+DOC_AUTHOR: "{%    set DOC_AUTHOR    = DOC_AUTHOR    | default('... David Bowman     ...')   %}{{ DOC_AUTHOR }}"
+DOC_RECIPIENT: "{% set DOC_RECIPIENT = DOC_RECIPIENT | default('... signed@localhost ...')   %}{{ DOC_RECIPIENT }}"
+DOC_SRC: "{%       set DOC_SRC       = DOC_SRC       | default('... test.md ...')            %}{{ DOC_SRC }}"
+DOC_VERSION: "{%   set DOC_VERSION   = DOC_VERSION   | default('... 0.0.0 ...')              %}{{ DOC_VERSION }}"
+title: "XXX"
+author: "Darcy Sheehan"
+date: "XXX"
+weaDocStyle: "default"
+weaEmail: "jobs4darcy@whateverany.com"
+weaFooter: "{{ DOC_SRC }} ({{ DOC_VERSION }})"
+titlepage: true
+# ###############################
+# Broken markdown
+# ###############################
+# # Lists
+# 
+# `[ ]{.latex.env.itemize}`
+# 
+# ::: {.latex.env.itemize}
+# Bullet point 1
+# Bullet point 2
+# Nested bullet
+# Bullet point 3
+# :::
+# 
+# # Blockquotes
+# 
+# `[ ]{.latex.env.quote}`
+# 
+# ::: {.latex.env.quote}
+# This is a blockquote.  
+# Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+# :::
+# 
+# # Hyperlinks
+# 
+# `[ ]{.latex.href arg1="https://example.com"}`
+# 
+# ::: {.latex.href arg1="https://example.com"}
+# Visit Example.com
+# :::
+#  ###############################
+---
+# Monospace Fonts
+
+`[ ]{.latex.texttt}`
+
+::: {.latex.texttt}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.fontspec arg1="FiraCode Nerd Font"}`
+
+::: {.latex.fontspec arg1="FiraCode Nerd Font"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.fontspec arg1="FiraMono Nerd Font Mono"}`
+
+::: {.latex.fontspec arg1="FiraMono Nerd Font Mono"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+# Sans-Serif Fonts
+
+`[ ]{.latex.textsf}`
+
+::: {.latex.textsf}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.fontspec arg1="TeX Gyre Heros"}`
+
+::: {.latex.fontspec arg1="TeX Gyre Heros"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.fontspec arg1="TeX Gyre Adventor"}`
+
+::: {.latex.fontspec arg1="TeX Gyre Adventor"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.fontspec arg1="TeX Gyre Chorus"}`
+
+::: {.latex.fontspec arg1="TeX Gyre Chorus"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+# Serif Fonts
+
+`[ ]{.latex.textrm}`
+
+::: {.latex.textrm}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.fontspec arg1="TeX Gyre Termes"}`
+
+::: {.latex.fontspec arg1="TeX Gyre Termes"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.fontspec arg1="TeX Gyre Pagella"}`
+
+::: {.latex.fontspec arg1="TeX Gyre Pagella"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.fontspec arg1="TeX Gyre Bonum"}`
+
+::: {.latex.fontspec arg1="TeX Gyre Bonum"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.fontspec arg1="EB Garamond"}`
+
+::: {.latex.fontspec arg1="EB Garamond"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.fontspec arg1="Latin Modern Roman"}`
+
+::: {.latex.fontspec arg1="Latin Modern Roman"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.fontspec arg1="Roboto Slab"}`
+
+::: {.latex.fontspec arg1="Roboto Slab"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+# Font Sizes
+
+`[ ]{.latex.tiny}`
+
+::: {.latex.tiny}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.scriptsize}`
+
+::: {.latex.scriptsize}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.footnotesize}`
+
+::: {.latex.footnotesize}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.small}`
+
+::: {.latex.small}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.normalsize}`
+
+::: {.latex.normalsize}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.large}`
+
+::: {.latex.large}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+:::
+
+`[ ]{.latex.Large}`
+
+::: {.latex.Large}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+:::
+
+`[ ]{.latex.LARGE}`
+
+::: {.latex.LARGE}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+:::
+
+`[ ]{.latex.huge}`
+
+::: {.latex.huge}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+:::
+
+`[ ]{.latex.Huge}`
+
+::: {.latex.Huge}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+:::
+
+::: {.latex.normalsize}
+:::
+
+[]{.latex.newpage}
+
+# Font Styles
+
+`[ ]{.latex.textbf}`
+
+::: {.latex.textbf}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.textit}`
+
+::: {.latex.textit}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+`[ ]{.latex.underline}`
+
+::: {.latex.underline}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+# Alignment
+
+`[ ]{.latex.env.center}`
+
+::: {.latex.env.center}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+:::
+
+`[ ]{.latex.env.flushleft}`
+
+::: {.latex.env.flushleft}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+:::
+
+`[ ]{.latex.env.flushright}`
+
+::: {.latex.env.flushright}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+:::
+
+# Colors
+
+`[ ]{.latex.color arg1="red"}`
+
+::: {.latex.color arg1="red"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+::: {.latex.color arg1="black"}
+:::
+
+`[ ]{.latex.color arg1="blue"}`
+
+::: {.latex.color arg1="blue"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+::: {.latex.color arg1="black"}
+:::
+
+`[ ]{.latex.color arg1="green"}`
+
+::: {.latex.color arg1="green" }
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+
+::: {.latex.color arg1="black"}
+:::
+
+# Special Characters / Unicode
+
+
+# Non-breaking / thin spaces
+
+::: {.latex.lstinline}
+Hello~world! This~is~non-breaking~space.
+Thin\ space here: A\ B
+
+:::
+
+
+# Inline code / Code blocks
+
+`[ ]{.latex.env.lstinline}`
+
+::: {.latex.env.lstinline}
+print("Hello, world!")
+for i in range(10):
+    print(i)
+
+:::
+
+::: {.latex.lstinline}
+% percent sign \
+$ dollar \
+# hash \
+_ underscore \
+& ampersand \
+{ curly brace \
+} curly brace \
+~ tilde \
+^ caret \
+\ backslash
+
+:::
+
+# Escaping LaTeX special characters
+
+::: {.latex.lstinline}
+\\, #, %, $, _, &, \{, }, ~, ^
+€, ©, ®, ±, ∞, µ, Ω
+
+:::
+
